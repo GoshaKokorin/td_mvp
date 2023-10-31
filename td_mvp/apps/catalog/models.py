@@ -9,6 +9,8 @@ class Category(models.Model):
     slug = AutoSlugField('Slug', populate_from='name', slugify_function=generate_slug)
     image = models.ImageField('Изображение', upload_to=image_upload_to)
 
+    is_active_on_main = models.BooleanField('Активность на главной странице', default=False, db_index=True)
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'

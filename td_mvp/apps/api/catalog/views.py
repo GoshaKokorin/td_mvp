@@ -19,22 +19,14 @@ class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 
 class ProductViewSet(
-    MultiSerializerViewSetMixin,
-    mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
     queryset = Product.objects.filter(is_active=True)
-    serializer_classes = {
-        'retrieve': ProductDetailSerializer,
-        'list': ProductListSerializer,
-    }
+    serializer_class = ProductDetailSerializer
     pagination_class = PageNumberPagination
     permission_classes = [permissions.AllowAny]
     lookup_field = 'slug'
-
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         self.get_serializer(request)
