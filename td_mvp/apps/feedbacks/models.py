@@ -5,6 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 class FeedbackCall(models.Model):
     name = models.CharField('Имя', max_length=255)
     number = PhoneNumberField(verbose_name='Телефон', region='RU')
+    email = models.EmailField(verbose_name='Email', blank=True, null=True)
     is_processed = models.BooleanField('Обработано', default=False)
     is_spam = models.BooleanField('Спам', default=False)
     created_at = models.DateTimeField('Дата заявки', auto_now_add=True)

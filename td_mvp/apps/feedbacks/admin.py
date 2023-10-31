@@ -8,8 +8,8 @@ from .models import FeedbackCall, FeedbackQuestion
 class FeedbackCallAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'created_at', 'is_processed', 'is_spam']
     list_editable = ['is_processed', 'is_spam']
-    fields = ['name', 'number', 'created_at', 'is_processed', 'is_spam']
-    readonly_fields = ['name', 'number', 'created_at']
+    fields = ['name', 'number', 'email', 'created_at', 'is_processed', 'is_spam']
+    readonly_fields = ['name', 'number', 'email', 'created_at']
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -19,8 +19,8 @@ class FeedbackCallAdmin(admin.ModelAdmin):
 class FeedbackQuestionAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'created_at', 'is_processed', 'is_spam']
     list_editable = ['is_processed', 'is_spam']
-    fields = ['name', 'number', 'text', 'created_at', 'is_processed', 'is_spam']
-    readonly_fields = ['name', 'number', 'text', 'created_at']
+    fields = ['name', 'number', 'email', 'text', 'created_at', 'is_processed', 'is_spam']
+    readonly_fields = ['name', 'number', 'email', 'text', 'created_at']
 
     def has_add_permission(self, request, obj=None):
         return False

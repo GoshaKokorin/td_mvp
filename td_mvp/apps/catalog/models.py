@@ -4,24 +4,10 @@ from django_extensions.db.fields import AutoSlugField
 from td_mvp.utils import image_upload_to, generate_slug
 
 
-class ProductTag(models.Model):
-    name = models.CharField('Название', max_length=64)
-
-    class Meta:
-        verbose_name = 'Тег'
-        verbose_name_plural = 'Теги'
-        ordering = ['-id']
-
-    def __str__(self):
-        return self.name
-
-
 class Category(models.Model):
     name = models.CharField('Название', max_length=255)
     slug = AutoSlugField('Slug', populate_from='name', slugify_function=generate_slug)
     image = models.ImageField('Изображение', upload_to=image_upload_to)
-
-    tags = models.ManyToManyField(ProductTag, verbose_name='Теги')
 
     class Meta:
         verbose_name = 'Категория'
@@ -33,20 +19,14 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name='Категории', on_delete=models.PROTECT)
-    tags = models.ManyToManyField(ProductTag, verbose_name='Теги')
 
     name = models.CharField('Название', max_length=255)
     slug = AutoSlugField('Slug', populate_from='name', slugify_function=generate_slug)
     short_description = models.CharField('Короткое описание', max_length=255)
-    description = models.TextField('Описание')
     price = models.CharField('Цена', max_length=255)
 
-    additional_title = models.CharField('Дополнительный заголовок', max_length=255, blank=True, null=True)
-    additional_description = models.TextField('Дополнительное описание', blank=True, null=True)
-
-    advantages = models.TextField('Преимущества', blank=True, null=True)
-    accessories = models.TextField('Комплектующие', blank=True, null=True)
-    guarantees = models.TextField('Гарантии', blank=True, null=True)
+    description = models.TextField('Описание')
+    delivery = models.TextField('Доставка', blank=True, null=True)
 
     is_active = models.BooleanField('Активность', default=False, db_index=True)
 
@@ -89,5 +69,3 @@ class ProductImage(models.Model):
         verbose_name = 'Изображение товара'
         verbose_name_plural = 'Изображение товаров'
         ordering = ['position']
-
-# gzip nginx

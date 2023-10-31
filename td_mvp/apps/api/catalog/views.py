@@ -1,12 +1,11 @@
-from django_filters.rest_framework import FilterSet, filters, DjangoFilterBackend
-from django_filters.widgets import CSVWidget
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, viewsets, permissions, generics
 from rest_framework.response import Response
 
 from td_mvp.apps.api.mixins import MultiSerializerViewSetMixin
 from td_mvp.apps.api.pagination import PageNumberPagination
 from td_mvp.apps.catalog.models import Category, Product
-from .serializers import CategoryListSerializer, ProductListSerializer, ProductDetailSerializer, ProductTagSerializer
+from .serializers import CategoryListSerializer, ProductListSerializer, ProductDetailSerializer
 
 
 class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -42,40 +41,16 @@ class ProductViewSet(
         return super().retrieve(request, *args, **kwargs)
 
 
-class ProductFilter(FilterSet):
-    tags = filters.BaseCSVFilter(
-        distinct=True, widget=CSVWidget(), method='filter_tags'
-    )
-
-    class Meta:
-        model = Product
-        fields = ['tags']
-
-    @staticmethod
-    def filter_tags(queryset, field_name, value):
-        qs = queryset
-        for i in value:
-            qs = qs.filter(tags=i)
-        return qs
-
-
-# TODO: fix неправильный слаг
 class CatalogProductAPIView(generics.ListAPIView):
     serializer_class = ProductListSerializer
     pagination_class = PageNumberPagination
     permission_classes = [permissions.AllowAny]
 
     filter_backends = [DjangoFilterBackend]
-    filterset_class = ProductFilter
 
     def get(self, request, *args, **kwargs):
         product_response = self.list(request, *args, **kwargs)
-
-        category = Category.objects.get(slug=self.kwargs['slug'])
-        category_tags_serializer = ProductTagSerializer(category.tags.all(), many=True)
-
         return Response({
-            "category_tags": category_tags_serializer.data,
             "products": product_response.data,
         })
 

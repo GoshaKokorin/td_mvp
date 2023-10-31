@@ -1,15 +1,10 @@
 from django.contrib import admin
 
-from .models import Category, Product, ProductImage, ProductCharacteristic, ProductTag
+from .models import Category, Product, ProductImage, ProductCharacteristic
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
-
-@admin.register(ProductTag)
-class ProductTagAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
@@ -34,22 +29,12 @@ class ProductAdmin(admin.ModelAdmin):
     fieldsets = [(
         None, {
             'fields': [
-                'category', 'tags', 'name', 'price', 'is_active',
+                'category', 'name', 'price', 'is_active',
             ]
         },
     ), (
         'Описание', {
             'classes': ['collapse'],
-            'fields': ['short_description', 'description']
+            'fields': ['short_description', 'description', 'delivery']
         },
-    ), (
-        'Дополнительные поля', {
-            'classes': ['collapse'],
-            'fields': ['additional_title', 'additional_description']
-        },
-    ), (
-        'Информация', {
-            'classes': ['collapse'],
-            'fields': ['advantages', 'accessories', 'guarantees']
-        }
     )]
