@@ -39,3 +39,6 @@ dhparam/
 # celery
 celerybeat-schedule*
 celeryd.pid
+
+
+db.sqlite3
