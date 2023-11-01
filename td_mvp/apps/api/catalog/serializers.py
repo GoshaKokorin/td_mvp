@@ -6,7 +6,7 @@ from td_mvp.apps.catalog.models import Category, Product, ProductImage, ProductC
 class CategoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name', 'slug', 'image']
+        fields = ['name', 'slug', 'image', 'is_active_on_main']
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -28,8 +28,8 @@ class ProductCharacteristicSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    product_images = ProductImageSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
+    product_images = ProductImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
@@ -48,11 +48,3 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'id', 'category', 'slug', 'name', 'description', 'price', 'delivery', 'product_images',
             'product_characteristics', 'related_products',
         ]
-
-    # def to_representation(self, obj):
-    #     request = self.context.get('request')
-    #     ret = super().to_representation(obj)
-    #     queryset = Product.objects.filter(is_active=True).exclude(id=obj.id).order_by('?')[:4]
-    #     serializer = ProductListSerializer(queryset, many=True, context={'request': request})
-    #     ret['related_products'] = serializer.data
-    #     return ret

@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'td_mvp.apps.catalog',
     'td_mvp.apps.feedbacks',
     'td_mvp.apps.main',
+    'td_mvp.apps.about',
 ]
 
 MIDDLEWARE = [

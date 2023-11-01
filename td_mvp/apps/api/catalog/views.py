@@ -2,7 +2,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, viewsets, permissions, generics
 from rest_framework.response import Response
 
-from td_mvp.apps.api.mixins import MultiSerializerViewSetMixin
 from td_mvp.apps.api.pagination import PageNumberPagination
 from td_mvp.apps.catalog.models import Category, Product
 from .serializers import CategoryListSerializer, ProductListSerializer, ProductDetailSerializer
